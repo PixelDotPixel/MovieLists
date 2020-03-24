@@ -37,16 +37,6 @@
         android:background="@drawable/gradient_drawable"
         tools:ignore="NotSibling">
 
-        <TextView
-            android:id="@+id/title_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:gravity="center"
-            android:text="Testing the apple sauce is saucy"
-            android:textColor="#000"
-            android:textSize="32sp"/>
-
         <ImageView
             android:id="@+id/movie_poster"
             android:layout_width="wrap_content"

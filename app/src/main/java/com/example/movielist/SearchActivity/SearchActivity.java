@@ -39,6 +39,7 @@ public class SearchActivity extends AppCompatActivity implements MovieSearchAPIA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        getSupportActionBar().setTitle("Search Movies");
 
         searchMovieET = findViewById(R.id.et_search_box);
         movieSearchResultsRV = findViewById(R.id.rv_search_results);

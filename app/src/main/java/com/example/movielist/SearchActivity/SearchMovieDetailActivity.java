@@ -53,6 +53,7 @@ public class SearchMovieDetailActivity extends AppCompatActivity {
     private TextView mErrorMSGTV;
     private TextView movieTitle;
     private ImageView moviePoster;
+    private ImageView movieBanner;
     private String movieIMGURL;
     private TextView movieOverview;
     private Button movieIMDB;
@@ -62,14 +63,26 @@ public class SearchMovieDetailActivity extends AppCompatActivity {
     private List<String> list_names;
     private SavedListViewModel savedVM;
 
+    private ImageView ivBanner;
+    private TextView MovieTitleTV;
+    private ImageView ivPoster;
+    private TextView MovieSubtitleTV;
+    private Button MovieIMdbB;
+    private TextView MovieDescriptionTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("Search Movies");
+
         setContentView(R.layout.activity_search_movie_detail);
-        movieTitle = findViewById(R.id.tv_movie_detail_title);
-        moviePoster = findViewById(R.id.search_poster_detail);
-        movieOverview = findViewById(R.id.tv_movie_detail_overview);
-        movieIMDB = findViewById(R.id.search_IMDB);
+        //MovieTitleTV = findViewById(R.id.title_details_search_detail);
+        MovieSubtitleTV = findViewById(R.id.subtitle_details_search_detail);
+        ivPoster = findViewById(R.id.movie_poster_search_detail);
+        ivBanner = findViewById(R.id.movie_banner_search_detail);
+        movieOverview = findViewById(R.id.description_details_search_detail);
+        MovieIMdbB = findViewById(R.id.imdb_link_movie_details_search_detail);
+        MovieDescriptionTV = findViewById(R.id.description_details_search_detail);
         movieIMDBID = null;
         movieIMGURL = null;
 
@@ -107,10 +120,8 @@ public class SearchMovieDetailActivity extends AppCompatActivity {
                     if(movieSearchResults != null && movieSearchResults.title != null) {
                         movieDetails = movieSearchResults;
                         Log.d(TAG,"got details for Movie" + movieSearchResults.toString());
-                        String movieRevenue = movieSearchResults.revenue;
-                        String titleFormat = movieSearchResults.title + "\n"+ "\n" + "Runtime: " + movieSearchResults.runtime + "min" + "\n" + "\n" + "Language: " + movieSearchResults.original_language + "\n" + "\n" + "Total Revenue: " + "\n" + "$" + movieRevenue
-                                + "\n" + "\n" + "Released: "+ movieSearchResults.release_date;
-                        movieTitle.setText(titleFormat);
+                        String titleFormat = movieSearchResults.title;
+                        getSupportActionBar().setTitle(titleFormat);
                     }
                     if(movieSearchResults != null && movieSearchResults.poster_path != null){
                         movieIMGURL = "https://image.tmdb.org/t/p/w500" + movieSearchResults.poster_path;
@@ -118,11 +129,28 @@ public class SearchMovieDetailActivity extends AppCompatActivity {
                         Glide.with(SearchMovieDetailActivity.this).load(movieIMGURL)
                                 .placeholder(R.drawable.ic_crop_original_black_24dp)
                                 .error(R.drawable.ic_crop_original_black_24dp)
-                                .into(moviePoster);
+                                .override(500,900)
+                                .into(ivPoster);
                     }
+                    if(movieSearchResults != null && movieSearchResults.budget != null && movieSearchResults.release_date != null && movieSearchResults.original_language != null && movieSearchResults.runtime != null) {
+                        movieDetails = movieSearchResults;
+                        String subTitleFormat = "Budget: " + movieSearchResults.budget + "\n" + "Revenue" + movieSearchResults.revenue + "\n" + "Release: " + movieSearchResults.release_date + "\n" + "Runtime: " + movieSearchResults.runtime + "\n";
+                        MovieSubtitleTV.setText(subTitleFormat);
+                        MovieSubtitleTV.setTextColor(Color.WHITE);
+                    }
+                    if(movieSearchResults != null && movieSearchResults.backdrop_path != null){
+                        movieIMGURL = "https://image.tmdb.org/t/p/original" + movieSearchResults.backdrop_path;
+                        Log.d(TAG,"Movie POSTER URL: " + movieIMGURL);
+                        Glide.with(SearchMovieDetailActivity.this).load(movieIMGURL)
+                                .placeholder(R.drawable.ic_crop_original_black_24dp)
+                                .error(R.drawable.ic_crop_original_black_24dp)
+                                .into(ivBanner);
+                    }
+
                     if(movieSearchResults != null && movieSearchResults.overview != null){
                         String movieOverviewText = "Synopsis: " + "\n"  + movieSearchResults.overview;
-                        movieOverview.setText(movieOverviewText);
+                        MovieDescriptionTV.setText(movieOverviewText);
+                        MovieDescriptionTV.setTextColor(Color.WHITE);
                     }
                     if(movieSearchResults != null && movieSearchResults.imdb_id != null){
                         movieIMDBID = movieSearchResults.imdb_id;
@@ -135,8 +163,8 @@ public class SearchMovieDetailActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            movieIMDB.setBackgroundColor(Color.YELLOW);
-            movieIMDB.setOnClickListener(new View.OnClickListener() {
+            MovieIMdbB.setBackgroundColor(Color.YELLOW);
+            MovieIMdbB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Uri imdb = Uri.parse("https://www.themoviedb.org/redirect?external_source=imdb_id&external_id=" + movieIMDBID);

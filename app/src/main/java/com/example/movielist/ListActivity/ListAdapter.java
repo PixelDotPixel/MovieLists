@@ -6,6 +6,7 @@ import com.example.movielist.R;
 import com.example.movielist.data.CreatedUserList;
 import com.example.movielist.data.Movies;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -74,12 +76,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MovieListViewH
 
     class MovieListViewHolder extends RecyclerView.ViewHolder {
         private TextView Title;
+        private TextView Notes;
         private ImageView picture;
+        private ImageView banner;
 
         public MovieListViewHolder (View itemView){
             super(itemView);
             Title = itemView.findViewById(R.id.tv_movie_title);
+            Notes = itemView.findViewById(R.id.tv_movie_notes_item);
             picture = itemView.findViewById(R.id.movie_picture_preview);
+            banner = itemView.findViewById(R.id.movie_list_item_banner);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -92,6 +98,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MovieListViewH
 
         void bind(Movies newMovieTitle){
             Title.setText(newMovieTitle.movie_title);
+            Title.setTextColor(Color.WHITE);
+
+            Notes.setText(newMovieTitle.movie_user_notes);
+            Notes.setTextColor(Color.WHITE);
+            Notes.setMaxLines(9);
 
             // Glide.with(picture.getContext()).load("https://image.tmdb.org/t/p/original" + newMovieTitle.movie_banner_URL).into(picture);
             Glide.with(picture.getContext())
@@ -102,6 +113,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MovieListViewH
                     .placeholder(R.drawable.ic_crop_original_black_24dp)
                     .error(R.drawable.ic_crop_original_black_24dp)
                     .into(picture);
+
+            String movieIMGURL = "https://image.tmdb.org/t/p/original" + newMovieTitle.movie_banner_URL;
+            //Log.d(TAG,"Movie POSTER URL: " + movieIMGURL);
+            Glide.with(picture.getContext()).load(movieIMGURL)
+                    .placeholder(R.drawable.ic_crop_original_black_24dp)
+                    .error(R.drawable.ic_crop_original_black_24dp)
+                    .into(banner);
         }
 
     }

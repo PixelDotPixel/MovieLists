@@ -49,9 +49,8 @@ public class MainActivity extends AppCompatActivity implements CreatedUserListAd
 
         // Remove shadow under action bar.
          getSupportActionBar().setElevation(0);
+         getSupportActionBar().setTitle("Your Lists");
 
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         mCreatedUserListRV = findViewById(R.id.rv_movie_list);
         mCreatedUserListAdapter = new CreatedUserListAdapter(this);

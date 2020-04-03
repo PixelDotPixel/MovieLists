@@ -39,6 +39,8 @@ public class ListActivity extends AppCompatActivity implements ListAdapter.onMov
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
+
+
         getSupportActionBar().setElevation(0);
         //Removes back arrow in second activity because we have android native arrow.
         if (getSupportActionBar() != null) {
@@ -62,9 +64,7 @@ public class ListActivity extends AppCompatActivity implements ListAdapter.onMov
         ).get(SavedListViewModel.class);
 
         if(intent != null && intent.hasExtra(EXTRA_LIST_OBJECT)) {
-            TextView listTitle = findViewById(R.id.tv_list_title);
-            listTitle.setText(createdUserList.list_title);
-
+            getSupportActionBar().setTitle(createdUserList.list_title);
             savedListViewModel.getListOfMovies(createdUserList.list_title).observe(this, new Observer<List<Movies>>() {
                 @Override
                 public void onChanged(List<Movies> movies) {

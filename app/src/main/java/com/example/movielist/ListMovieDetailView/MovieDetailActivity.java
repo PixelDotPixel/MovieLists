@@ -43,7 +43,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Movies movie;
     private SavedListViewModel savedVM;
 
-    private LinearLayout llBody;
     private ImageView ivBanner;
     private TextView MovieTitleTV;
     private ImageView ivPoster;
@@ -61,6 +60,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
+
         savedVM = new ViewModelProvider(
                 this,
                 new ViewModelProvider.AndroidViewModelFactory(getApplication())
@@ -69,7 +69,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null && intent.hasExtra(EXTRA_MOVIES)){
             movie = (Movies)intent.getSerializableExtra(EXTRA_MOVIES);
-
+            getSupportActionBar().setTitle(movie.movie_title);
             //Drawable Poster = LoadImageFromWebOperations("http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg");
             ivBanner = findViewById(R.id.movie_banner);
             //ivBanner.setImageAlpha(200);
@@ -80,6 +80,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     .centerCrop()
                     .placeholder(R.drawable.ic_crop_original_black_24dp)
                     .error(R.drawable.ic_crop_original_black_24dp)
+                    .override(500,900)
                     .into(ivBanner);
 
             ivPoster = findViewById(R.id.movie_poster);
@@ -92,11 +93,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                     .error(R.drawable.ic_crop_original_black_24dp)
                     .into(ivPoster);
 
-            llBody = findViewById(R.id.ll_list_detail);
+            //llBody = findViewById(R.id.ll_list_detail);
 
-            MovieTitleTV = findViewById(R.id.title_details);
+            /*MovieTitleTV = findViewById(R.id.title_details);
             MovieTitleTV.setText(movie.movie_title);
-            MovieTitleTV.setTextColor(Color.WHITE);
+            MovieTitleTV.setTextColor(Color.WHITE);*/
 
             MovieSubtitleTV = findViewById(R.id.subtitle_details);
             MovieSubtitleTV.setText("Language: " + movie.movie_language + ", Rating: " + movie.movie_votes + ", Release-Date: " + movie.movie_release_date);
